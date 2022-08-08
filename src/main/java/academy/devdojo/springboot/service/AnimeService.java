@@ -1,6 +1,8 @@
 package academy.devdojo.springboot.service;
 
 import academy.devdojo.springboot.domain.Anime;
+import academy.devdojo.springboot.repository.AnimeRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -10,26 +12,28 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
+@RequiredArgsConstructor
 public class AnimeService {
-    private static List<Anime> animes;
-
-    static {
-        animes = new ArrayList<>(List.of(new Anime(1L,"Naruto"), new Anime(2L,"DBZ")));
-    }
+    private final AnimeRepository animeRepository;
     public List<Anime> findAll(){
-        return animes;
+        return animeRepository.findAll();
     }
 
     public Anime findById(long id){
-        return animes.stream()
-                .filter(anime -> anime.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Anime not fund"));
+        return animeRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Anime not fund"));
     }
 
     public Anime save(Anime anime) {
-        anime.setId(ThreadLocalRandom.current().nextLong(3,10000));
-        animes.add(anime);
-        return anime;
+        return animeRepository.save(anime);
+    }
+
+    public void delete(Long id){
+        animeRepository.deleteById(id);
+    }
+
+    public Anime replace(Long id, Anime obj) {
+        Anime entity = animeRepository.getOne(id);
+        entity.setName(obj.getName());
+        return animeRepository.save(entity);
     }
 }
