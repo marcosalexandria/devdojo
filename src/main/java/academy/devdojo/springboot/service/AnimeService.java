@@ -1,6 +1,7 @@
 package academy.devdojo.springboot.service;
 
 import academy.devdojo.springboot.domain.Anime;
+import academy.devdojo.springboot.exception.BadRequestException;
 import academy.devdojo.springboot.repository.AnimeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,7 @@ public class AnimeService {
     }
 
     public Anime findById(long id){
-        return animeRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Anime not fund"));
+        return animeRepository.findById(id).orElseThrow(() -> new BadRequestException("Anime not fund"));
     }
 
     public Anime save(Anime anime) {
