@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class AnimeController {
     }
 
     @PostMapping
-    public ResponseEntity<Anime> save(@RequestBody Anime anime){
+    public ResponseEntity<Anime> save(@RequestBody @Valid Anime anime){ //@Valid faz a validação altomatica conforme as anotacoes na entidade
         return new ResponseEntity<>(animeService.save(anime), HttpStatus.CREATED);
     }
 
