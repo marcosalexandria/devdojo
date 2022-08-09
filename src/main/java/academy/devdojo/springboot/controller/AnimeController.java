@@ -27,6 +27,10 @@ public class AnimeController {
         log.info(dateUtil.formatDateTimeToDatabaseStyly(LocalDateTime.now()));  //para ver no meu horario o log
         return new ResponseEntity<>(animeService.findAll(), HttpStatus.OK);
     }
+    @GetMapping(path = "/find") /*http://localhost:8080/animes/find?name=Naruto*/
+    public ResponseEntity<List<Anime>> findByName(@RequestParam String name){
+        return ResponseEntity.ok(animeService.findByName(name));
+    }
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<Anime> findById(@PathVariable long id){

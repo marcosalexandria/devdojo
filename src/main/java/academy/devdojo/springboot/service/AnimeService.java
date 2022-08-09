@@ -36,4 +36,8 @@ public class AnimeService {
         entity.setName(obj.getName());
         return animeRepository.save(entity);
     }
+
+    public List<Anime> findByName(String name){
+        return animeRepository.findByName(name);
+    }
 }
